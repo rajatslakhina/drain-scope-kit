@@ -300,7 +300,22 @@ limit; it does not defend it.
 
 ### Continuous integration
 
-<!-- CI-PENDING -->
+[![CI](https://github.com/rajatslakhina/drain-scope-kit/actions/workflows/ci.yml/badge.svg)](https://github.com/rajatslakhina/drain-scope-kit/actions/workflows/ci.yml)
+
+Two jobs on every push — the [Actions tab](https://github.com/rajatslakhina/drain-scope-kit/actions)
+is the live answer, not this paragraph:
+
+- **Linux**, in the `swift:6.0-jammy` container — `swift build -Xswiftc -warnings-as-errors`
+  followed by `swift test`. That flag is what makes the zero-warning claim above
+  machine-enforced instead of asserted in prose.
+- **macOS**, on `macos-15` — `swift build` and `swift test` against Xcode's own
+  toolchain, so the package is exercised on an Apple platform and not only on Linux.
+
+Both jobs passed on the commit that completed this repo's initial push. Note what
+that does and does not cover: it compiles and tests `DrainScope`. It does not
+type-check `DrainScopeUI`, whose sources sit behind `#if canImport(SwiftUI)` — on
+Linux that makes them empty, and the macOS job builds for macOS where SwiftUI does
+resolve, so the UI target compiles there but has no test coverage of its own.
 
 ### What has NOT been verified
 
